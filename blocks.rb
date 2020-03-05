@@ -40,8 +40,12 @@ module Enumerable
   def my_count
     return self.length unless block_given?
 
-    
+    total = 0
+    my_each { |index| total += 1 if yield(index) }
+    total
   end
+
+
 
 end
 
@@ -70,3 +74,7 @@ end
 
 count = test.my_count
 puts "The total length is #{count}"
+
+count_num = test.my_count { |x| x == 1 }
+puts "There is #{count_num} ones"
+
