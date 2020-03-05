@@ -50,7 +50,18 @@ module Enumerable
     my_each { |index| total = yield(index) }
   end
 
-  def my_inject
+  def my_inject(first = nil)
+    if first == nil
+      first = self[0]
+      index = 1
+    else
+      index = 0
+    end
+
+    for x in index...self.length
+      first = yield(first, self[x])
+    end
+    first
   end 
 
 end
@@ -85,3 +96,9 @@ count_num = test.my_count { |x| x == 1 }
 puts "There is #{count_num} ones"
 
 test.my_map { |x| puts x**2 }
+
+puts test.my_inject { |one, two| one + two }
+
+puts test.my_inject { |one, two| one * two }
+
+puts test.my_inject(10) { |one, two| one + two }
