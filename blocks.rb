@@ -45,7 +45,13 @@ module Enumerable
     total
   end
 
+  def my_map
+    total = 0
+    my_each { |index| total = yield(index) }
+  end
 
+  def my_inject
+  end 
 
 end
 
@@ -78,3 +84,4 @@ puts "The total length is #{count}"
 count_num = test.my_count { |x| x == 1 }
 puts "There is #{count_num} ones"
 
+test.my_map { |x| puts x**2 }
