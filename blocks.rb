@@ -45,9 +45,14 @@ module Enumerable
     total
   end
 
-  def my_map
-    total = 0
-    my_each { |index| total = yield(index) }
+  def my_map(procedure = nil)
+    total = []
+    if procedure == nil
+      my_each { |index| total.push(yield(index)) }
+    else
+      my_each { |index| total.push(procedure.call(index))  }
+    end
+    total
   end
 
   def my_inject(first = nil)
@@ -93,12 +98,18 @@ count = test.my_count
 puts "The total length is #{count}"
 
 count_num = test.my_count { |x| x == 1 }
-puts "There is #{count_num} ones"
+puts "There are #{count_num} ones"
 
-test.my_map { |x| puts x**2 }
+puts test.my_map { |x| x**2 }
+
+procedure = Proc.new { |x| x**x  }
+puts test.my_map(procedure)
 
 puts test.my_inject { |one, two| one + two }
 
-puts test.my_inject { |one, two| one * two }
-
 puts test.my_inject(10) { |one, two| one + two }
+
+def multiply_els(arr)
+    arr.my_inject { |arr, num| arr * num }
+end 
+puts multiply_els([2, 3, 4])
